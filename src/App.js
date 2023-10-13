@@ -39,7 +39,7 @@ function App() {
         <div>
           {complaints.map((complaint) => (
             <div key={complaint.id}>
-              <p>{complaint.message}</p>
+              <p>{complaint.message} | {complaint.submitter} | {complaint.source} | {complaint.type} | {complaint.created_at} </p>
             </div>
           ))}
         </div>
