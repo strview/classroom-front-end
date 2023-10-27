@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { getComplaints, createComplaint } from './helpers/apiEndpoints';
 
+
+
 function App() {
 
   const dummyCompaints = [
@@ -34,7 +36,9 @@ const handleSubmit = async (event) => {
   event.preventDefault()
   const complaint = {
     message: event.target.message.value,
-    source: "kenny-front-end",
+    source: "james-front-end",
+    submitter: event.target.submitter.value,
+    type: event.target.type.value,
   }
   console.log("complaint", complaint)
   const { apiEndpoint, apiOptions } = await createComplaint(complaint)
@@ -46,68 +50,72 @@ const handleSubmit = async (event) => {
   setComplaints([...complaints, data])
 }
 
+const CoolTable = ({data}) => {
+  // const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+
+  const result = data.filter((item) => item.source === "Ethan-front-end")
+
+  return (
+    <table>
+            <thead>
+                <tr>
+                  <th>Message X</th>
+                  <th>Submitter</th>
+                  <th>Source</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+          {result.map((complaint) => (
+              <tr key={complaint.id}>
+                <td>{complaint.message}</td>
+                <td>{complaint.submitter}</td>
+                <td>{complaint.source}</td>
+                <td>{complaint.type}</td>
+                <td>{complaint.created_at}</td>
+              </tr>
+          ))}
+          </tbody>
+        </table>
+  )
+}
+
+
 
   return (
     <div className="App">
       <header className="App-header">
-       
-        <p>
-          Complaint Portal
-        </p>
-        
+      <div>
+      <h1>Complaint Portal</h1>
+      </div>  
+      
         <div>
           <hr></hr>
-          <h2>Submit a complaint</h2>
+          <h2>Enter your complaint(s)</h2>
           <form onSubmit={handleSubmit}>
-            <input type="text" name="message" />
+            Message &emsp;&emsp;&emsp;<input type="text" name="message" /> 
+            <br/>
+            Submitter &emsp;&emsp;&nbsp; <input type="text" name="submitter" />
+            <br/>
+            Complaint Type <input type="text" name="type" />
+            <br/>
             <button type="submit">Submit Complaint</button>
           </form>
         </div>
-
         
-
-      <div>
-        <hr/>
-      <h2>Sample Table</h2>
-      <table>
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Savings</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>January</td>
-          <td>$100</td>
-        </tr>
-        <tr>
-          <td>February</td>
-          <td>$80</td>
-        </tr>
-      </tbody>
-
-    </table>
-
-      </div>
-
-
-
 
         <div>
           <hr/>
           <h2>Complaints</h2>
-          {complaints.map((complaint) => (
-            <div key={complaint.id}>
-              <p>{complaint.message} | {complaint.submitter} | {complaint.source} | {complaint.created_at}</p>
-
-            </div>
-          ))}
+          <CoolTable data={complaints} />
+          
         </div>
         
       </header>
     </div>
   );
+
 }
 
 export default App;
