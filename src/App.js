@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { getComplaints, createComplaint } from './helpers/apiEndpoints';
 import React, { Component } from 'react'
-import { useTable } from 'react-table';
 
 function App() {
 
@@ -49,38 +48,43 @@ const handleSubmit = async (event) => {
   console.log(data)
   setComplaints([...complaints, data])
 }
-class Table extends Component {
 
-  constructor(props) {
+const CoolTable = ({data}) => {
 
-     super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
+  const result = data.filter((item) => item.source === "Ethan-front-end")
 
-     this.state = { //state is by default an object
-
-        students: [
-
-           { Message: 1, name: 'deepak', age: 21, email: 'deepak@email.com' },
-
-           { id: 2, name: 'arsad', age: 19, email: 'arsad@email.com' },
-
-           { id: 3, name: 'raman', age: 16, email: 'raman@email.com' },
-
-           { id: 4, name: 'ajeet', age: 25, email: 'ajeet@email.com' }
-
-        ]
-
-     }
-
-  }
+  return (
+          <table>
+            <thead>
+                <tr>
+                  <th>Message</th>
+                  <th>Submitter</th>
+                  <th>Source</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+              {result.map((complaint) => (
+                <tr key={complaint.id}>
+                  <td>{complaint.message}</td>
+                  <td>{complaint.submitter}</td>
+                  <td>{complaint.source}</td>
+                  <td>{complaint.type}</td>
+                  <td>{complaint.created_at}</td>
+                </tr> 
+              ))}
+            </tbody>
+          </table>
+  )
 }
-
 
   return (
     <div className="App">
       <header className="App-header">
-      <div>
-      <h1>Complaint Portal</h1>
-      </div>  
+        <div>
+        <h1>Complaint Portal</h1>
+        </div>  
       
         <div>
           <hr></hr>
@@ -96,38 +100,12 @@ class Table extends Component {
           </form>
         </div>
         
-
         <div>
           <hr/>
           <h2>Complaints</h2>
-          <table>
-          {complaints.map((complaint) => (
-            <div key={complaint.id}>
-              <thead>
-                <tr>
-                  <th>Message</th>
-                  <th>Submitter</th>
-                  <th>Source</th>
-                  <th>Type</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-              
-              <tr>
-                <td>{complaint.message}</td>
-                <td>{complaint.submitter}</td>
-                <td>{complaint.source}</td>
-                <td>{complaint.created_at}</td>
-              </tr>
-              </tbody>
-              
-            </div>
-          ))}
-          
-          </table>
+          <CoolTable data={complaints}/> 
         </div>
-        
+          
       </header>
     </div>
   );
