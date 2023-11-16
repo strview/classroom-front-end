@@ -49,7 +49,7 @@ const OldPage = () => {
     const CoolTable = ({data}) => {
       // const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
     
-      const result = data.filter((item) => item.source === "Ethan-front-end")
+      const result = data.filter((item) => item.record_type === "complaint")
     
       return (
         <table>
