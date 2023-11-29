@@ -1,0 +1,14 @@
+.leftside {
+    flex:1;
+    padding:var(--padding);
+    border-right:1px solid #020202;
+    flex-direction:column;
+    height: 100%;
+  }
+.rightside {
+    flex:4;
+    padding: var(--padding);
+    flex-direction:column;
+    color: blue;
+  }
+
