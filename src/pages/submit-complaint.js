@@ -65,19 +65,31 @@ const SubmitComplaint = () => {
     const validatePhone = (event) => {
         var phone = event.target.value
       
-        if (validator.isPhone(phone)) {
+        if (validator.isMobilePhone(phone)) {
            setPhoneError('Valid Phone :)')
         } else {
-           setPhoneError('Enter valid Email!')
+           setPhoneError('Enter valid Phone!')
         }
       }
+
+    const handleEmailChange = (event) => {
+        setComplaint({...complaint, email: event.target.value})
+        validateEmail(event)
+    }
+
+    const handlePhoneChange = (event) => {
+        setComplaint({...complaint, phone: event.target.value})
+        validatePhone(event)
+    }
       //This is a comment 
     
 
     return (
         <>
             <h1>Complaint Form</h1>
-
+            <div>
+                {emailError}
+            </div>
 
             <form>
             <FormControl fullWidth>
@@ -136,8 +148,11 @@ const SubmitComplaint = () => {
                             autoComplete="email"
                             autoFocus
                             value={complaint.email || ""}
-                            onChange={(event) => {setComplaint({...complaint, email: event.target.value})}}
+                            onChange={(event) => {handleEmailChange(event)}}
                             />
+                <div>
+                    {emailError}
+                </div>
 
                 <TextField margin="normal"
                             required
@@ -148,8 +163,11 @@ const SubmitComplaint = () => {
                             autoComplete="phone"
                             autoFocus
                             value={complaint.phone || ""}
-                            onChange={(event) => {setComplaint({...complaint, phone: event.target.value})}}
+                            onChange={(event) => {handlePhoneChange(event)}}
                             />
+                <div>
+                    {phoneError}
+                </div>
 
                 
             </FormControl>
