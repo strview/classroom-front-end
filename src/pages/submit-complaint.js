@@ -2,6 +2,7 @@ import { Box, Button, Container, Grid, TextField, Typography, FormControl, Input
 import * as React from 'react'
 import { useState } from "react"
 import { createComplaint } from "../helpers/apiEndpoints"
+import validator from 'validator'
 
 const APP_SOURCE = "kobe-front=end"
 
@@ -30,16 +31,48 @@ const SubmitComplaint = () => {
         setComplaint({})
     }
 
-//This is for the type form dropdown
-    const [type, setFood] = React.useState('noise');
 
 //This is for selecting type form dropdown
     const handleTypeChange = (event) => {
 
-        setFood(event.target.value);
+        setComplaint({...complaint, type: event.target.value})
 
  };
+   
+ //This is the new code to try and get the Anonymous button fields
+    const [isButtonClicked, setButtonClicked] = useState(false);
+    
+    const handleButtonClick = () => {
+        setButtonClicked(!isButtonClicked);
+        };
 
+    const [emailError, setEmailError] = useState('')
+    
+    //Email Validation
+    const validateEmail = (event) => {
+        var email = event.target.value
+      
+        if (validator.isEmail(email)) {
+           setEmailError('Valid Email :)')
+        } else {
+           setEmailError('Enter valid Email!')
+        }
+      }
+
+    const [phoneError, setPhoneError] = useState('')
+    
+    //Phone number validation
+    const validatePhone = (event) => {
+        var phone = event.target.value
+      
+        if (validator.isPhone(phone)) {
+           setPhoneError('Valid Phone :)')
+        } else {
+           setPhoneError('Enter valid Email!')
+        }
+      }
+      
+    
 
     return (
         <>
@@ -65,8 +98,8 @@ const SubmitComplaint = () => {
                 <InputLabel id="type-label">Complaint type</InputLabel>
                 <Select
                     labelId="type-label"
-                    id="type"
-                    value={type}
+                    id="complaint type"
+                    value={complaint.type || ""}
                     label="Complaint Type"
                     onChange={handleTypeChange}
                 >
@@ -81,6 +114,43 @@ const SubmitComplaint = () => {
                     <MenuItem value="other">Other</MenuItem>
                 </Select>
 
+
+                <TextField margin="normal"
+                            required
+                            fullWidth
+                            id="name"
+                            label="Name"
+                            name="name"
+                            autoComplete="name"
+                            autoFocus
+                            value={complaint.name || ""}
+                            onChange={(event) => {setComplaint({...complaint, name: event.target.value})}}
+                            />
+
+                <TextField margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            value={complaint.email || ""}
+                            onChange={(event) => {setComplaint({...complaint, email: event.target.value})}}
+                            />
+
+                <TextField margin="normal"
+                            required
+                            fullWidth
+                            id="phone"
+                            label="Phone Number"
+                            name="phone"
+                            autoComplete="phone"
+                            autoFocus
+                            value={complaint.phone || ""}
+                            onChange={(event) => {setComplaint({...complaint, phone: event.target.value})}}
+                            />
+
                 
             </FormControl>
             
@@ -90,6 +160,7 @@ const SubmitComplaint = () => {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
+                            onClick = {handleSubmit}
                         >
                             Save
                         </Button>

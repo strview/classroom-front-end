@@ -48,6 +48,10 @@ const Examples = () => {
         setComplaint({})
     }
 
+    const [file, setFile] = useState();
+
+
+
 
 
 
@@ -108,7 +112,6 @@ const Examples = () => {
                             value={complaint.type || ""}
                             onChange={(event) => {setComplaint({...complaint, type: event.target.value})}}
                         />
-
                     <Box sx={{display: "flex", justifyContent: "space-between"}}>
                         <Button
                             type="submit"
@@ -128,6 +131,7 @@ const Examples = () => {
                             Clear
                         </Button>
                     </Box>
+
                        
                     </Box>
                 </Box>
