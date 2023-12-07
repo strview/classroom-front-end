@@ -1,11 +1,18 @@
 import { useState } from "react"
 import { Box, Button, Grid, Typography } from "@mui/material"
-import { PieChart, Pie, ResponsiveContainer } from "recharts"
+import { PieChart, Pie, ResponsiveContainer, Legend } from "recharts"
 import { getComplaints } from "../helpers/apiEndpoints"
 
 
 const ComplaintDashboard = () => {
-    const [chartData, setChartData] = useState([])
+    const [chartDataStatusDay, setChartDataStatusDay] = useState([])
+    const [chartDataStatusWeek, setChartDataStatusWeek] = useState([])
+    const [chartDataStatusMonth, setChartDataStatusMonth] = useState([])
+    const [chartDataTypeDay, setChartDataTypeDay] = useState([])
+    const [chartDataTypeWeek, setChartDataTypeWeek] = useState([])
+    const [chartDataTypeMonth, setChartDataTypeMonth] = useState([])
+
+    let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF"];
 
     const getChartData = async () => {
         const { apiEndpoint, apiOptions } = await getComplaints()
@@ -14,41 +21,17 @@ const ComplaintDashboard = () => {
         console.log("response", response)
         const data = await response.json()
         console.log(data)
-        const chartDataDictionary = {}
+
+        //STATUS DATA
         // loop through the data and create a dictionary of the types and counts
-        data.forEach((item) => {
-            if (chartDataDictionary[item.type]) {
-                chartDataDictionary[item.type] += 1
-            } else {
-                chartDataDictionary[item.type] = 1
-            }
-        })
-        // loop through the dictionary and create the chart data
-        const chartData = []
-        for (const [key, value] of Object.entries(chartDataDictionary)) {
-            chartData.push({name: key, value: value})
-        }
-        console.log("chartData", chartData)
-        setChartData(chartData)
-
-        const currentUtcTime = new Date().toUTCString();
-        console.log(currentUtcTime);
-    }
-
-    const getDailyStatus = async ()=> {
-        const { apiEndpoint, apiOptions } = await getComplaints()
-        console.log("apiEndpoint", apiEndpoint)
-        const response = await fetch(apiEndpoint, apiOptions)
-        console.log("response", response)
-        const data = await response.json()
-        console.log(data)
-        const chartDataDictionary = {}
         const currentDate = new Date();
-        // loop through the data and create a dictionary of the types and counts
+        //Daily
+        let chartDataDictionary = {}
         data.forEach((item) => {
-            const timeDifference = currentDate - item.created_at;
-            const hoursDifference = timeDifference / (1000 * 60 * 60);
-            if ((timeDifference) < (24)){
+            var complaintDate = new Date(item.created_at);
+            const timeDifference = currentDate - complaintDate;
+            const complaintStatusHours = timeDifference / (1000 * 60 * 60);
+            if ((complaintStatusHours) < (24)){
                 if (chartDataDictionary[item.status]) {
                     chartDataDictionary[item.status] += 1
                 } else {
@@ -56,156 +39,144 @@ const ComplaintDashboard = () => {
                 }
             }
             else {
-
+                //console.log("ComplaintStatusHours",  complaintStatusHours)  
             }
-        })
-        
+        }) 
         // loop through the dictionary and create the chart data
-        const chartData = []
+        const chartDataStatusDay = []
         for (const [key, value] of Object.entries(chartDataDictionary)) {
-                chartData.push({name: key, value: value})
+                chartDataStatusDay.push({name: key, value: value})
         }
-        console.log("chartData", chartData)
-        setChartData(chartData)
-        
+        console.log("chartDataStatusDay", chartDataStatusDay)
+        setChartDataStatusDay(chartDataStatusDay)
 
-    }
-
-    const getWeeklyStatus = async ()=> {
-        const { apiEndpoint, apiOptions } = await getComplaints()
-        console.log("apiEndpoint", apiEndpoint)
-        const response = await fetch(apiEndpoint, apiOptions)
-        console.log("response", response)
-        const data = await response.json()
-        console.log(data)
-        const chartDataDictionary = {}
-        // loop through the data and create a dictionary of the types and counts
+        //Weekly
+        chartDataDictionary = {}
         data.forEach((item) => {
-            if (chartDataDictionary[item.status]) {
-                chartDataDictionary[item.status] += 1
-            } else {
-                chartDataDictionary[item.status] = 1
+            var complaintDate = new Date(item.created_at);
+            const timeDifference = currentDate - complaintDate;
+            const complaintStatusDaysW = timeDifference / (1000 * 60 * 60 * 24);
+            if ((complaintStatusDaysW) < (7)){
+                if (chartDataDictionary[item.status]) {
+                    chartDataDictionary[item.status] += 1
+                } else {
+                    chartDataDictionary[item.status] = 1
+                }
             }
-        })
-        
+            else {
+                
+            }
+        }) 
         // loop through the dictionary and create the chart data
-        const chartData = []
-        const currentDate = new Date();
+        const chartDataStatusWeek = []
         for (const [key, value] of Object.entries(chartDataDictionary)) {
-                chartData.push({name: key, value: value})
+                chartDataStatusWeek.push({name: key, value: value})
         }
-        console.log("chartData", chartData)
-        setChartData(chartData)
-        
-    }
+        console.log("chartDataStatusWeek", chartDataStatusWeek)
+        setChartDataStatusWeek(chartDataStatusWeek)
 
-    const getMonthlyStatus = async ()=> {
-        const { apiEndpoint, apiOptions } = await getComplaints()
-        console.log("apiEndpoint", apiEndpoint)
-        const response = await fetch(apiEndpoint, apiOptions)
-        console.log("response", response)
-        const data = await response.json()
-        console.log(data)
-        const chartDataDictionary = {}
-        // loop through the data and create a dictionary of the types and counts
+        //Monthly
+        chartDataDictionary = {}
         data.forEach((item) => {
-            if (chartDataDictionary[item.status]) {
-                chartDataDictionary[item.status] += 1
-            } else {
-                chartDataDictionary[item.status] = 1
+            var complaintDate = new Date(item.created_at);
+            const timeDifference = currentDate - complaintDate;
+            const complaintStatusDaysM = timeDifference / (1000 * 60 * 60 * 24);
+            if ((complaintStatusDaysM) < (31)){
+                if (chartDataDictionary[item.status]) {
+                    chartDataDictionary[item.status] += 1
+                } else {
+                    chartDataDictionary[item.status] = 1
+                }
             }
-        })
+            else {
+                
+            }
+        }) 
         // loop through the dictionary and create the chart data
-        const chartData = []
-        const currentDate = new Date();
+        const chartDataStatusMonth = []
         for (const [key, value] of Object.entries(chartDataDictionary)) {
-                chartData.push({name: key, value: value})
+                chartDataStatusMonth.push({name: key, value: value})
         }
-        console.log("chartData", chartData)
-        setChartData(chartData)
+        console.log("chartDataStatusMonth", chartDataStatusMonth)
+        setChartDataStatusMonth(chartDataStatusMonth)
 
-    }
-
-    const getDailyType = async ()=> {
-        const { apiEndpoint, apiOptions } = await getComplaints()
-        console.log("apiEndpoint", apiEndpoint)
-        const response = await fetch(apiEndpoint, apiOptions)
-        console.log("response", response)
-        const data = await response.json()
-        console.log(data)
-        const chartDataDictionary = {}
+        //TYPE DATA
         // loop through the data and create a dictionary of the types and counts
+        //Daily
+        chartDataDictionary = {}
         data.forEach((item) => {
-            if (chartDataDictionary[item.type]) {
-                chartDataDictionary[item.type] += 1
-            } else {
-                chartDataDictionary[item.type] = 1
+            var complaintDate = new Date(item.created_at);
+            const timeDifference = currentDate - complaintDate;
+            const complaintTypeHours = timeDifference / (1000 * 60 * 60);
+            if ((complaintTypeHours) < (24)){
+                if (chartDataDictionary[item.type]) {
+                    chartDataDictionary[item.type] += 1
+                } else {
+                    chartDataDictionary[item.type] = 1
+                }
             }
-        })
-        
-        // loop through the dictionary and create the chart data
-        const chartData = []
-        const currentDate = new Date();
-        for (const [key, value] of Object.entries(chartDataDictionary)) {
-                chartData.push({name: key, value: value})
-        }
-        console.log("chartData", chartData)
-        setChartData(chartData)
-
-    }
-
-    const getWeeklyType = async ()=> {
-        const { apiEndpoint, apiOptions } = await getComplaints()
-        console.log("apiEndpoint", apiEndpoint)
-        const response = await fetch(apiEndpoint, apiOptions)
-        console.log("response", response)
-        const data = await response.json()
-        console.log(data)
-        const chartDataDictionary = {}
-        // loop through the data and create a dictionary of the types and counts
-        data.forEach((item) => {
-            if (chartDataDictionary[item.type]) {
-                chartDataDictionary[item.type] += 1
-            } else {
-                chartDataDictionary[item.type] = 1
+            else {
+                //console.log("ComplaintTypeHours",  complaintTypeHours)
             }
         })
         // loop through the dictionary and create the chart data
-        const chartData = []
+        const chartDataTypeDay = []
         for (const [key, value] of Object.entries(chartDataDictionary)) {
-            chartData.push({name: key, value: value})
+            chartDataTypeDay.push({name: key, value: value})
         }
-        console.log("chartData", chartData)
-        setChartData(chartData)
-        
-    }
+        console.log("chartDataTypeDay", chartDataTypeDay)
+        setChartDataTypeDay(chartDataTypeDay)
 
-    const getMonthlyType = async ()=> {
-        const { apiEndpoint, apiOptions } = await getComplaints()
-        console.log("apiEndpoint", apiEndpoint)
-        const response = await fetch(apiEndpoint, apiOptions)
-        console.log("response", response)
-        const data = await response.json()
-        console.log(data)
-        const chartDataDictionary = {}
-        // loop through the data and create a dictionary of the types and counts
+        //Weekly
+        chartDataDictionary = {}
         data.forEach((item) => {
-            if (chartDataDictionary[item.type]) {
-                chartDataDictionary[item.type] += 1
-            } else {
-                chartDataDictionary[item.type] = 1
+            var complaintDate = new Date(item.created_at);
+            const timeDifference = currentDate - complaintDate;
+            const complaintTypeDaysW = timeDifference / (1000 * 60 * 60 * 24);
+            if ((complaintTypeDaysW) < (7)){
+                if (chartDataDictionary[item.type]) {
+                    chartDataDictionary[item.type] += 1
+                } else {
+                    chartDataDictionary[item.type] = 1
+                }
+            }
+            else {
+                //console.log("ComplaintTypeDaysW",  complaintTypeDaysW)
             }
         })
         // loop through the dictionary and create the chart data
-        const chartData = []
+        const chartDataTypeWeek = []
         for (const [key, value] of Object.entries(chartDataDictionary)) {
-            chartData.push({name: key, value: value})
+            chartDataTypeWeek.push({name: key, value: value})
         }
-        console.log("chartData", chartData)
-        setChartData(chartData)
-        
-    }
+        console.log("chartDataTypeWeek", chartDataTypeWeek)
+        setChartDataTypeWeek(chartDataTypeWeek)
+        //Monthly
+        chartDataDictionary = {}
+        data.forEach((item) => {
+            var complaintDate = new Date(item.created_at);
+            const timeDifference = currentDate - complaintDate;
+            const complaintTypeDaysM = timeDifference / (1000 * 60 * 60 * 24);
+            if ((complaintTypeDaysM) < (31)){
+                if (chartDataDictionary[item.type]) {
+                    chartDataDictionary[item.type] += 1
+                } else {
+                    chartDataDictionary[item.type] = 1
+                }
+            }
+            else {
+                
+            }
+        })
+        // loop through the dictionary and create the chart data
+        const chartDataTypeMonth = []
+        for (const [key, value] of Object.entries(chartDataDictionary)) {
+            chartDataTypeMonth.push({name: key, value: value})
+        }
+        console.log("chartDataTypeMonth", chartDataTypeMonth)
+        setChartDataTypeMonth(chartDataTypeMonth)
 
+    }
     
     return (
         <>
@@ -230,146 +201,96 @@ const ComplaintDashboard = () => {
                             <PieChart>
                                 <Pie 
                                     dataKey="value" 
-                                    data={chartData} 
+                                    data={chartDataStatusDay} 
                                     fill="#8884d8" 
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
-                                    cy="50%" />
+                                    cy="50%"
+                                     
+                                        />
+                                <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                            onClick={getChartData}
-                        >
-                            Get Chart Data
-                        </Button>
-
                     </Grid>
                     <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
                                     dataKey="value" 
-                                    data={chartData} 
+                                    data={chartDataStatusWeek} 
                                     fill="#8884d8" 
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
                                     cy="50%" />
+                                <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                            onClick={getChartData}
-                        >
-                            Get Chart Data
-                        </Button>
-
                     </Grid>
                     <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
                                     dataKey="value" 
-                                    data={chartData} 
+                                    data={chartDataStatusMonth} 
                                     fill="#8884d8" 
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
                                     cy="50%" />
+                                <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                            onClick={getDailyStatus}
-                        >
-                            Get Chart Data
-                        </Button>
-
                     </Grid>
                     <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
                                     dataKey="value" 
-                                    data={chartData} 
+                                    data={chartDataTypeDay} 
                                     fill="#8884d8" 
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
                                     cy="50%" />
+                                <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                            onClick={getDailyStatus}
-                        >
-                            Get Chart Data
-                        </Button>
-
                     </Grid>
                     <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
                                     dataKey="value" 
-                                    data={chartData} 
+                                    data={chartDataTypeWeek} 
                                     fill="#8884d8" 
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
                                     cy="50%" />
+                                <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                            onClick={getDailyStatus}
-                        >
-                            Get Chart Data
-                        </Button>
-
                     </Grid>
                     <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
                                     dataKey="value" 
-                                    data={chartData} 
+                                    data={chartDataTypeMonth} 
                                     fill="#8884d8" 
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
                                     cy="50%" />
+                                    <Legend/>
+                                
                             </PieChart>
                         </ResponsiveContainer>
                     </Grid>
                     
+
                 </Grid>
             </Box>
             
