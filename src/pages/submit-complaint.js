@@ -37,14 +37,8 @@ const SubmitComplaint = () => {
 
         setComplaint({...complaint, type: event.target.value})
 
- };
-   
- //This is the new code to try and get the Anonymous button fields
-    const [isButtonClicked, setButtonClicked] = useState(false);
-    
-    const handleButtonClick = () => {
-        setButtonClicked(!isButtonClicked);
-        };
+ }
+
 
     const [emailError, setEmailError] = useState('')
     
@@ -71,25 +65,30 @@ const SubmitComplaint = () => {
            setPhoneError('Enter valid Phone!')
         }
       }
-
+//This handles the email validator
     const handleEmailChange = (event) => {
         setComplaint({...complaint, email: event.target.value})
         validateEmail(event)
     }
-
+//This handles the phone validator
     const handlePhoneChange = (event) => {
         setComplaint({...complaint, phone: event.target.value})
         validatePhone(event)
     }
-      //This is a comment 
-    
+//This is to set the fields hidden to false
+    const [fieldsHidden, setFieldsHidden] = useState(false)
+
+
+    //This is to hide and show fields if anonymous button is clicked
+    const toggleFieldsVisibility = () => {
+        setFieldsHidden(!fieldsHidden);
+      }
+
+
 
     return (
         <>
             <h1>Complaint Form</h1>
-            <div>
-                {emailError}
-            </div>
 
             <form>
             <FormControl fullWidth>
@@ -106,7 +105,7 @@ const SubmitComplaint = () => {
                             onChange={(event) => {setComplaint({...complaint, message: event.target.value})}}
                             />
 
-
+                
                 <InputLabel id="type-label">Complaint type</InputLabel>
                 <Select
                     labelId="type-label"
@@ -126,8 +125,8 @@ const SubmitComplaint = () => {
                     <MenuItem value="other">Other</MenuItem>
                 </Select>
 
-
-                <TextField margin="normal"
+            {!fieldsHidden && (
+                <><TextField margin="normal"
                             required
                             fullWidth
                             id="name"
@@ -136,25 +135,21 @@ const SubmitComplaint = () => {
                             autoComplete="name"
                             autoFocus
                             value={complaint.name || ""}
-                            onChange={(event) => {setComplaint({...complaint, name: event.target.value})}}
-                            />
+                            onChange={(event) => { setComplaint({ ...complaint, name: event.target.value }) } } /><TextField margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                value={complaint.email || ""}
+                                onChange={(event) => { handleEmailChange(event) } } />
+                                <div>
+                                {emailError}
+                            </div>
 
-                <TextField margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            value={complaint.email || ""}
-                            onChange={(event) => {handleEmailChange(event)}}
-                            />
-                <div>
-                    {emailError}
-                </div>
-
-                <TextField margin="normal"
+                            <TextField margin="normal"
                             required
                             fullWidth
                             id="phone"
@@ -168,6 +163,20 @@ const SubmitComplaint = () => {
                 <div>
                     {phoneError}
                 </div>
+                            </>
+                )}
+
+                <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                <button
+                type = "button"
+                onClick={toggleFieldsVisibility}
+                sx = {{ mt: 3, mb: 2, mr: 2, ml: 2 }}
+                variant = 'contained'>
+                    {fieldsHidden ? 'Anonymous' : 'Not Anonymous'}
+                </button>
+                </Box>
+
+               
 
                 
             </FormControl>
