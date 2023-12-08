@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Box, Button, Grid, Typography } from "@mui/material"
-import { PieChart, Pie, ResponsiveContainer, Legend } from "recharts"
+import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts"
 import { getComplaints } from "../helpers/apiEndpoints"
 
 
@@ -12,7 +12,7 @@ const ComplaintDashboard = () => {
     const [chartDataTypeWeek, setChartDataTypeWeek] = useState([])
     const [chartDataTypeMonth, setChartDataTypeMonth] = useState([])
 
-    let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF"];
+    let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#3498db", "#2ecc71", "#e74c3c", "#f39c12"];
 
     const getChartData = async () => {
         const { apiEndpoint, apiOptions } = await getComplaints()
@@ -198,22 +198,29 @@ const ComplaintDashboard = () => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
                         <ResponsiveContainer>
+                            
                             <PieChart>
                                 <Pie 
                                     dataKey="value" 
+                                    nameKey="name"
                                     data={chartDataStatusDay} 
                                     fill="#8884d8" 
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
                                     cy="50%"
-                                     
-                                        />
+                                >
+                                    {chartDataStatusDay.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip/>
                                 <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
                     </Grid>
                     <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
+                    
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
@@ -223,8 +230,15 @@ const ComplaintDashboard = () => {
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
-                                    cy="50%" />
+                                    cy="50%" 
+                                >
+                                    {chartDataStatusWeek.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip/>
                                 <Legend/>
+                                
                             </PieChart>
                         </ResponsiveContainer>
                     </Grid>
@@ -238,7 +252,14 @@ const ComplaintDashboard = () => {
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
-                                    cy="50%" />
+                                    cy="50%"
+                                >
+                                
+                                    {chartDataStatusMonth.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip/>    
                                 <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
@@ -253,7 +274,13 @@ const ComplaintDashboard = () => {
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
-                                    cy="50%" />
+                                    cy="50%" >
+
+                                    {chartDataTypeDay.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip/>
                                 <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
@@ -268,7 +295,13 @@ const ComplaintDashboard = () => {
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
-                                    cy="50%" />
+                                    cy="50%" 
+                                >
+                                    {chartDataTypeWeek.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>                                
+                                <Tooltip/>
                                 <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
@@ -283,12 +316,81 @@ const ComplaintDashboard = () => {
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
-                                    cy="50%" />
-                                    <Legend/>
+                                    cy="50%" 
+                                >
+
+                                    {chartDataTypeMonth.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip/>
+                                <Legend/>
                                 
                             </PieChart>
                         </ResponsiveContainer>
                     </Grid>
+                    <Grid item xs={12} sm={8} md={6}>
+                    <div className="grid-item">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Days</th>
+                                    <th>Status: New</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>0-30</b></td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><b>30-60</b></td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><b>60-90</b></td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td><b>90+</b></td>
+                                    <td>8</td>
+                                </tr> 
+                            </tbody>
+                        </table>   
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={6}>
+                    <div className="grid-item">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Days</th>
+                                    <th>Status: In-Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>0-30</b></td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><b>30-60</b></td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><b>60-90</b></td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td><b>90+</b></td>
+                                    <td>8</td>
+                                </tr> 
+                            </tbody>
+                        </table>    
+                    </div>
+                </Grid>
+           
+
                     
 
                 </Grid>
