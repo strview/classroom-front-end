@@ -11,6 +11,8 @@ const ComplaintDashboard = () => {
     const [chartDataTypeDay, setChartDataTypeDay] = useState([])
     const [chartDataTypeWeek, setChartDataTypeWeek] = useState([])
     const [chartDataTypeMonth, setChartDataTypeMonth] = useState([])
+    const [tableDataNew, setTableDataNew] = useState([])
+    const [tableDataInProgress, setTableDataInProgress] = useState([])
 
     let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#3498db", "#2ecc71", "#e74c3c", "#f39c12"];
 
@@ -177,14 +179,20 @@ const ComplaintDashboard = () => {
         setChartDataTypeMonth(chartDataTypeMonth)
 
     }
+
+    const getTableData = async () => {
+        console.log("hello")
+    }
+
     
     return (
         <>
-            <Typography variant="h1">Complaint Dashboard</Typography>
+            <Typography variant="h2" align="center">Complaint Dashboard</Typography>
 
             <Box sx={{mb:4}}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid item xs={12} sm={6} md={4}></Grid>
+                    <Grid item xs={12} sm={6} md={4}>
                         <Button
                             type="button"
                             fullWidth
@@ -196,31 +204,33 @@ const ComplaintDashboard = () => {
                         </Button>
 
                     </Grid>
-                    <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
-                        <ResponsiveContainer>
-                            
-                            <PieChart>
-                                <Pie 
-                                    dataKey="value" 
-                                    nameKey="name"
-                                    data={chartDataStatusDay} 
-                                    fill="#8884d8" 
-                                    labelLine={false}
-                                    label={true}
-                                    cx="50%"
-                                    cy="50%"
-                                >
-                                    {chartDataStatusDay.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip/>
-                                <Legend/>
-                            </PieChart>
-                        </ResponsiveContainer>
+                    <Grid item xs={12} sm={6} md={4}></Grid>
+                    <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
+                        {(chartDataStatusDay.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
+                            <ResponsiveContainer>
+                                <PieChart>
+                                    <Pie 
+                                        dataKey="value" 
+                                        nameKey="name"
+                                        data={chartDataStatusDay} 
+                                        fill="#8884d8" 
+                                        labelLine={false}
+                                        label={true}
+                                        cx="50%"
+                                        cy="50%"
+                                    >
+                                        {chartDataStatusDay.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
-                    
+                    <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
+                    {(chartDataStatusWeek.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
@@ -241,51 +251,57 @@ const ComplaintDashboard = () => {
                                 
                             </PieChart>
                         </ResponsiveContainer>
+                    }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
-                        <ResponsiveContainer>
-                            <PieChart>
-                                <Pie 
-                                    dataKey="value" 
-                                    data={chartDataStatusMonth} 
-                                    fill="#8884d8" 
-                                    labelLine={false}
-                                    label={true}
-                                    cx="50%"
-                                    cy="50%"
-                                >
-                                
-                                    {chartDataStatusMonth.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip/>    
-                                <Legend/>
-                            </PieChart>
-                        </ResponsiveContainer>
+                    <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
+                        {(chartDataStatusMonth.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
+                            <ResponsiveContainer>
+                                <PieChart>
+                                    <Pie 
+                                        dataKey="value" 
+                                        data={chartDataStatusMonth} 
+                                        fill="#8884d8" 
+                                        labelLine={false}
+                                        label={true}
+                                        cx="50%"
+                                        cy="50%"
+                                    >
+                                    
+                                        {chartDataStatusMonth.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>    
+                                    <Legend/>
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
-                        <ResponsiveContainer>
-                            <PieChart>
-                                <Pie 
-                                    dataKey="value" 
-                                    data={chartDataTypeDay} 
-                                    fill="#8884d8" 
-                                    labelLine={false}
-                                    label={true}
-                                    cx="50%"
-                                    cy="50%" >
+                    <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
+                        {(chartDataTypeDay.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
+                            <ResponsiveContainer>
+                                <PieChart>
+                                    <Pie 
+                                        dataKey="value" 
+                                        data={chartDataTypeDay} 
+                                        fill="#8884d8" 
+                                        labelLine={false}
+                                        label={true}
+                                        cx="50%"
+                                        cy="50%" >
 
-                                    {chartDataTypeDay.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip/>
-                                <Legend/>
-                            </PieChart>
-                        </ResponsiveContainer>
+                                        {chartDataTypeDay.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
+                    <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
+                    {(chartDataTypeWeek.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
                         <ResponsiveContainer>
                             <PieChart>
                                 <Pie 
@@ -305,37 +321,41 @@ const ComplaintDashboard = () => {
                                 <Legend/>
                             </PieChart>
                         </ResponsiveContainer>
+                    }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={9} sx={{height:"300px"}}>
-                        <ResponsiveContainer>
-                            <PieChart>
-                                <Pie 
-                                    dataKey="value" 
-                                    data={chartDataTypeMonth} 
-                                    fill="#8884d8" 
-                                    labelLine={false}
-                                    label={true}
-                                    cx="50%"
-                                    cy="50%" 
-                                >
+                    <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
+                        {(chartDataTypeMonth.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
+                            <ResponsiveContainer>
+                                <PieChart>
+                                    <Pie 
+                                        dataKey="value" 
+                                        data={chartDataTypeMonth} 
+                                        fill="#8884d8" 
+                                        labelLine={false}
+                                        label={true}
+                                        cx="50%"
+                                        cy="50%" 
+                                    >
 
-                                    {chartDataTypeMonth.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip/>
-                                <Legend/>
-                                
-                            </PieChart>
-                        </ResponsiveContainer>
+                                        {chartDataTypeMonth.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                    
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
                     </Grid>
-                    <Grid item xs={12} sm={8} md={6}>
+                    <Grid item xs={12} sm={6} md={3}></Grid>
+                    <Grid item xs={12} sm={6} md={3}>
                     <div className="grid-item">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Days</th>
-                                    <th>Status: New</th>
+                                    <th>New Complaints</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -359,13 +379,14 @@ const ComplaintDashboard = () => {
                         </table>   
                     </div>
                 </Grid>
-                <Grid item xs={12} sm={8} md={6}>
+                <Grid item xs={12} sm={6} md={1}></Grid>
+                <Grid item xs={12} sm={6} md={3}>
                     <div className="grid-item">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Days</th>
-                                    <th>Status: In-Progress</th>
+                                    <th>In-Progress Complaints</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -389,6 +410,7 @@ const ComplaintDashboard = () => {
                         </table>    
                     </div>
                 </Grid>
+                <Grid item xs={12} sm={6} md={3}></Grid>
            
 
                     
