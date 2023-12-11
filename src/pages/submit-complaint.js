@@ -30,7 +30,7 @@ const SubmitComplaint = () => {
     const clearComplaint = () => {
         setComplaint({})
     }
-
+//new comment
 
 //This is for selecting type form dropdown
     const handleTypeChange = (event) => {
