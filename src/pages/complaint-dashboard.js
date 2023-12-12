@@ -11,8 +11,8 @@ const ComplaintDashboard = () => {
     const [chartDataTypeDay, setChartDataTypeDay] = useState([])
     const [chartDataTypeWeek, setChartDataTypeWeek] = useState([])
     const [chartDataTypeMonth, setChartDataTypeMonth] = useState([])
-    const [tableDataNew, setTableDataNew] = useState([])
-    const [tableDataInProgress, setTableDataInProgress] = useState([])
+    const [tableDataNew, setTableDataNew] = useState({})
+    const [tableDataInProgress, setTableDataInProgress] = useState({})
 
     let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#3498db", "#2ecc71", "#e74c3c", "#f39c12"];
     const currentDate = new Date();
@@ -192,71 +192,56 @@ const ComplaintDashboard = () => {
         console.log(data)
 
 
-        var bucket1=0, bucket2=0, bucket3=0, bucket4=0
+        //var bucket1=0, bucket2=0, bucket3=0, bucket4=0
         let tableDataDictionary = {bucket1:0, bucket2:0, bucket3:0, bucket4:0}
         data.forEach((item) => {
             var complaintDate = new Date(item.created_at);
             const timeDifference = currentDate - complaintDate;
             const complaintDays = timeDifference / (1000 * 60 * 60 * 24);
-            if ((complaintDays) <= (30) && (item.status="new")){
-                tableDataDictionary[bucket1] += 1     
+            console.log(complaintDays, item.status)
+            if ((complaintDays) <= (30) && (item.status?.toLowerCase()==="new")){
+                tableDataDictionary["bucket1"] += 1     
             }
-            else if (((complaintDays) > (30) && (complaintDays) <=(60) && (item.status="new"))){
-                tableDataDictionary[bucket2] += 1   
+            else if (((complaintDays) > (30) && (complaintDays) <=(60) && (item.status?.toLowerCase()==="new"))){
+                tableDataDictionary["bucket2"] += 1   
                 
             }
-            else if (((complaintDays) > (60) && (complaintDays) <=(90) && (item.status="new"))){
-                tableDataDictionary[bucket3] += 1   
+            else if (((complaintDays) > (60) && (complaintDays) <=(90) && (item.status?.toLowerCase()==="new"))){
+                tableDataDictionary["bucket3"] += 1   
                 
             }
-            else if (((complaintDays) > (90) && (item.status="new"))){
-                tableDataDictionary[bucket4] += 1   
+            else if (((complaintDays) > (90) && (item.status?.toLowerCase()==="new"))){
+                tableDataDictionary["bucket4"] += 1   
                 
             }
         }) 
-        // loop through the dictionary and create the chart data
-        const tableDataNew = []
-        for (const [key, value] of Object.entries(tableDataDictionary)) {
-                tableDataNew.push({name: key, value: value})
-        }
+        
+        setTableDataNew(tableDataDictionary)
 
-        console.log("tableDataNew", tableDataNew)
-        setTableDataNew(tableDataNew)
-
-
-        bucket1=0 
-        bucket2=0
-        bucket3=0
-        bucket4=0
         tableDataDictionary = {bucket1:0, bucket2:0, bucket3:0, bucket4:0}
         data.forEach((item) => {
             var complaintDate = new Date(item.created_at);
             const timeDifference = currentDate - complaintDate;
             const complaintDays = timeDifference / (1000 * 60 * 60 * 24);
-            if ((complaintDays) <= (30) && (item.status="in-progress")){
-                tableDataDictionary[bucket1] += 1     
+            if ((complaintDays) <= (30) && (item.status?.toLowerCase()==="in process")){
+                tableDataDictionary["bucket1"] += 1     
             }
-            else if (((complaintDays) > (30) && (complaintDays) <=(60) && (item.status="in-progress"))){
-                tableDataDictionary[bucket2] += 1   
+            else if (((complaintDays) > (30) && (complaintDays) <=(60) && (item.status?.toLowerCase()==="in process"))){
+                tableDataDictionary["bucket2"] += 1   
                 
             }
-            else if (((complaintDays) > (60) && (complaintDays) <=(90) && (item.status="in-progress"))){
-                tableDataDictionary[bucket3] += 1   
+            else if (((complaintDays) > (60) && (complaintDays) <=(90) && (item.status?.toLowerCase()==="in process"))){
+                tableDataDictionary["bucket3"] += 1   
                 
             }
-            else if (((complaintDays) > (90) && (item.status="in-progress"))){
-                tableDataDictionary[bucket4] += 1   
+            else if (((complaintDays) > (90) && (item.status?.toLowerCase()==="in process"))){
+                tableDataDictionary["bucket4"] += 1   
                 
             }
         }) 
         // loop through the dictionary and create the chart data
-        const tableDataInProgress = []
-        for (const [key, value] of Object.entries(tableDataDictionary)) {
-                tableDataInProgress.push({name: key, value: value})
-        }
-
-        console.log("tableDataInProgress", tableDataInProgress)
-        setTableDataInProgress(tableDataInProgress)
+        
+        setTableDataInProgress(tableDataDictionary)
     }
 
     
@@ -440,26 +425,26 @@ const ComplaintDashboard = () => {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Days</th>
-                                    <th>New Complaints</th>
+                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
+                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>New Complaints</b></u></Typography></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><b>0-30</b></td>
-                                    <td>{tableDataNew["bucket1"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket1"]}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>30-60</b></td>
-                                    <td>{tableDataNew["bucket2"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket2"]}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>60-90</b></td>
-                                    <td>{tableDataNew["bucket3"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket3"]}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>90+</b></td>
-                                    <td>{tableDataNew["bucket4"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket4"]}</td>
                                 </tr> 
                             </tbody>
                         </table>   
@@ -471,26 +456,26 @@ const ComplaintDashboard = () => {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Days</th>
-                                    <th>In-Progress Complaints</th>
+                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
+                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>In Process Complaints</b></u></Typography></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><b>0-30</b></td>
-                                    <td>{tableDataInProgress["bucket1"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket1"]}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>30-60</b></td>
-                                    <td>{tableDataInProgress["bucket2"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket2"]}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>60-90</b></td>
-                                    <td>{tableDataInProgress["bucket3"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket3"]}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>90+</b></td>
-                                    <td>{tableDataInProgress["bucket4"]}</td>
+                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
+                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket4"]}</td>
                                 </tr> 
                             </tbody>
                         </table>    
