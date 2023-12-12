@@ -17,8 +17,6 @@ const ComplaintDashboard = () => {
     let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#3498db", "#2ecc71", "#e74c3c", "#f39c12"];
     const currentDate = new Date();
 
-    
-
     const getChartData = async () => {
         const { apiEndpoint, apiOptions } = await getComplaints()
         console.log("apiEndpoint", apiEndpoint)
@@ -261,7 +259,6 @@ const ComplaintDashboard = () => {
                         >
                             Get Chart Data
                         </Button>
-
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}></Grid>
                     <Grid item xs={12} sm={6} md={4}>
@@ -274,7 +271,6 @@ const ComplaintDashboard = () => {
                         >
                             Get Table Data
                         </Button>
-
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
                         {(chartDataStatusDay.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
@@ -301,28 +297,28 @@ const ComplaintDashboard = () => {
                         }
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
-                    {(chartDataStatusWeek.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
-                        <ResponsiveContainer>
-                            <PieChart>
-                                <Pie 
-                                    dataKey="value" 
-                                    data={chartDataStatusWeek} 
-                                    fill="#8884d8" 
-                                    labelLine={false}
-                                    label={true}
-                                    cx="50%"
-                                    cy="50%" 
-                                >
-                                    {chartDataStatusWeek.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip/>
-                                <Legend/>
-                                
-                            </PieChart>
-                        </ResponsiveContainer>
-                    }
+                        {(chartDataStatusWeek.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
+                            <ResponsiveContainer>
+                                <PieChart>
+                                    <Pie 
+                                        dataKey="value" 
+                                        data={chartDataStatusWeek} 
+                                        fill="#8884d8" 
+                                        labelLine={false}
+                                        label={true}
+                                        cx="50%"
+                                        cy="50%" 
+                                    >
+                                        {chartDataStatusWeek.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                    
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
                         {(chartDataStatusMonth.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
@@ -372,27 +368,27 @@ const ComplaintDashboard = () => {
                         }
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
-                    {(chartDataTypeWeek.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
-                        <ResponsiveContainer>
-                            <PieChart>
-                                <Pie 
-                                    dataKey="value" 
-                                    data={chartDataTypeWeek} 
-                                    fill="#8884d8" 
-                                    labelLine={false}
-                                    label={true}
-                                    cx="50%"
-                                    cy="50%" 
-                                >
-                                    {chartDataTypeWeek.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>                                
-                                <Tooltip/>
-                                <Legend/>
-                            </PieChart>
-                        </ResponsiveContainer>
-                    }
+                        {(chartDataTypeWeek.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
+                            <ResponsiveContainer>
+                                <PieChart>
+                                    <Pie 
+                                        dataKey="value" 
+                                        data={chartDataTypeWeek} 
+                                        fill="#8884d8" 
+                                        labelLine={false}
+                                        label={true}
+                                        cx="50%"
+                                        cy="50%" 
+                                    >
+                                        {chartDataTypeWeek.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>                                
+                                    <Tooltip/>
+                                    <Legend/>
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
                         {(chartDataTypeMonth.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
@@ -421,71 +417,68 @@ const ComplaintDashboard = () => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}></Grid>
                     <Grid item xs={12} sm={6} md={3}>
-                    <div className="grid-item">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
-                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>New Complaints</b></u></Typography></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket1"]}</td>
-                                </tr>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket2"]}</td>
-                                </tr>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket3"]}</td>
-                                </tr>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket4"]}</td>
-                                </tr> 
-                            </tbody>
-                        </table>   
-                    </div>
-                </Grid>
-                <Grid item xs={12} sm={6} md={1}></Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <div className="grid-item">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
-                                    <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>In Process Complaints</b></u></Typography></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket1"]}</td>
-                                </tr>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket2"]}</td>
-                                </tr>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket3"]}</td>
-                                </tr>
-                                <tr>
-                                    <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
-                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket4"]}</td>
-                                </tr> 
-                            </tbody>
-                        </table>    
-                    </div>
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}></Grid>
+                        <div className="grid-item">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
+                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>New Complaints</b></u></Typography></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket1"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket2"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket3"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket4"]}</td>
+                                    </tr> 
+                                </tbody>
+                            </table>   
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={1}></Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <div className="grid-item">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
+                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>In Process Complaints</b></u></Typography></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket1"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket2"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket3"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
+                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket4"]}</td>
+                                    </tr> 
+                                </tbody>
+                            </table>    
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}></Grid>
            
-
-                    
-
                 </Grid>
             </Box>
             
