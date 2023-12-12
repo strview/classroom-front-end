@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts"
 import { getComplaints } from "../helpers/apiEndpoints"
@@ -16,6 +16,12 @@ const ComplaintDashboard = () => {
 
     let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#3498db", "#2ecc71", "#e74c3c", "#f39c12"];
     const currentDate = new Date();
+
+    useEffect(() => {
+        // PUT STUFF HERE TO RUN ON STARTUP
+        getChartData()
+        getTableData()
+    }, [])
 
     const getChartData = async () => {
         const { apiEndpoint, apiOptions } = await getComplaints()
@@ -246,11 +252,11 @@ const ComplaintDashboard = () => {
     return (
         <>
             <Typography variant="h2" align="center">Complaint Dashboard</Typography>
-
+          
             <Box sx={{mb:4}}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Button
+                <Grid item xs={12} sm={6} md={4}>
+                        {/*<Button
                             type="button"
                             fullWidth
                             variant="contained"
@@ -258,11 +264,11 @@ const ComplaintDashboard = () => {
                             onClick={getChartData}
                         >
                             Get Chart Data
-                        </Button>
+                            </Button>*/}
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}></Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Button
+                        {/*<Button
                             type="button"
                             fullWidth
                             variant="contained"
@@ -270,7 +276,7 @@ const ComplaintDashboard = () => {
                             onClick={getTableData}
                         >
                             Get Table Data
-                        </Button>
+                        </Button>*/}
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
                         {(chartDataStatusDay.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
