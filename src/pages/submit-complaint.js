@@ -3,7 +3,8 @@ import * as React from 'react'
 import { useState } from "react"
 import { createComplaint } from "../helpers/apiEndpoints"
 import validator from 'validator'
-import Alert from '@mui/material/Alert';
+import Alert from '@mui/material/Alert'
+import LinearProgress from '@mui/material/LinearProgress'
 
 
 
@@ -12,11 +13,13 @@ const APP_SOURCE = "kobe-front=end"
 
 const SubmitComplaint = () => {
     const [complaint, setComplaint] = useState({})
-
+    const [showAlert, setShowAlert] = useState(false)
+    const [showProgress, setShowProgress] = useState(false)
     //This is to be able to handle and submit the complaint information from the client
     //The console logs is for de-bugging purposes for the developer
     const handleSubmit = async (event) => {
         event.preventDefault()
+        setShowProgress(true)
         console.log("complaint", complaint)
         const tempComplaint = {...complaint, source: APP_SOURCE}
         console.log("tempComplaint", tempComplaint)
@@ -28,8 +31,8 @@ const SubmitComplaint = () => {
         const data = await response.json()
         console.log(data)
         setComplaint(data)
-        submitFeedback()
-        contactFeedback()
+        setShowAlert(true) 
+        setShowProgress(false)
         clearComplaint()
         
     
@@ -41,13 +44,13 @@ const SubmitComplaint = () => {
     }
 
 //This is to let the user know that the response has been recorded
-    const submitFeedback = () => {
-        <Alert severity="success">Your Response has been recorded</Alert>
-    }
+    //const submitFeedback = () => {
+        //<Alert severity="success">Your Response has been recorded</Alert>
+    //}
 //This is to let the user know how to get in contact if needed afterwards
-    const contactFeedback = () => {
-        <Alert severity="success">If you have any questions, contact us at email@gmail.com or 123-123-123</Alert>
-    }
+    //const contactFeedback = () => {
+        //<Alert severity="success">If you have any questions, contact us at email@gmail.com or 123-123-123</Alert>
+    //}
 
 //This is for selecting type form dropdown
     const handleTypeChange = (event) => {
@@ -114,6 +117,11 @@ const SubmitComplaint = () => {
 
     return (
         <>
+            {showAlert && <Alert severity="success">Your Response has been recorded</Alert>}
+            {showAlert && <Alert severity="info" sx = {{mt: 1}}>If you have any questions or concerns, contact us at email@gmail.com or 111-111-1111</Alert>}
+            {showProgress && (<Box sx={{ width: '100%' }}>
+                <LinearProgress />
+            </Box>)}
             <h1 style ={mystyle}> Complaint Form</h1>
 
             <form>
