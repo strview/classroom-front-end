@@ -3,8 +3,12 @@ import * as React from 'react'
 import { useState } from "react"
 import { createComplaint } from "../helpers/apiEndpoints"
 import validator from 'validator'
+import Alert from '@mui/material/Alert';
+
+
 
 const APP_SOURCE = "kobe-front=end"
+
 
 const SubmitComplaint = () => {
     const [complaint, setComplaint] = useState({})
@@ -24,13 +28,26 @@ const SubmitComplaint = () => {
         const data = await response.json()
         console.log(data)
         setComplaint(data)
+        submitFeedback()
+        contactFeedback()
+        clearComplaint()
+        
+    
     }
 
     //This is a function that is used for the clear button in the form 
     const clearComplaint = () => {
         setComplaint({})
     }
-//new comment
+
+//This is to let the user know that the response has been recorded
+    const submitFeedback = () => {
+        <Alert severity="success">Your Response has been recorded</Alert>
+    }
+//This is to let the user know how to get in contact if needed afterwards
+    const contactFeedback = () => {
+        <Alert severity="success">If you have any questions, contact us at email@gmail.com or 123-123-123</Alert>
+    }
 
 //This is for selecting type form dropdown
     const handleTypeChange = (event) => {
@@ -47,9 +64,9 @@ const SubmitComplaint = () => {
         var email = event.target.value
       
         if (validator.isEmail(email)) {
-           setEmailError('Valid Email :)')
+           setEmailError('')
         } else {
-           setEmailError('Enter valid Email!')
+           setEmailError('Please enter a valid email')
         }
       }
 
@@ -60,9 +77,9 @@ const SubmitComplaint = () => {
         var phone = event.target.value
       
         if (validator.isMobilePhone(phone)) {
-           setPhoneError('Valid Phone :)')
+           setPhoneError('')
         } else {
-           setPhoneError('Enter valid Phone!')
+           setPhoneError('Please enter a valid phone number')
         }
       }
 //This handles the email validator
@@ -84,14 +101,23 @@ const SubmitComplaint = () => {
         setFieldsHidden(!fieldsHidden);
       }
 
+    //This is for the styling of the Complaint form tag   
+    const mystyle = {
+    color: "black",
+    padding: "10px",
+    fontFamily: "Arial",
+    textAlign: 'center',
+      };
+  
+
 
 
     return (
         <>
-            <h1>Complaint Form</h1>
+            <h1 style ={mystyle}> Complaint Form</h1>
 
             <form>
-            <FormControl fullWidth>
+            
 
             <TextField margin="normal"
                             required
@@ -102,10 +128,11 @@ const SubmitComplaint = () => {
                             autoComplete="message"
                             autoFocus
                             value={complaint.message || ""}
+                            inputProps={{ maxLength: 2000 }}
                             onChange={(event) => {setComplaint({...complaint, message: event.target.value})}}
                             />
 
-                
+                <FormControl fullWidth>
                 <InputLabel id="type-label">Complaint type</InputLabel>
                 <Select
                     labelId="type-label"
@@ -124,6 +151,7 @@ const SubmitComplaint = () => {
                     <MenuItem value="hazard">Hazardous/Unsafe Conditions</MenuItem>
                     <MenuItem value="other">Other</MenuItem>
                 </Select>
+                </FormControl>
 
             {!fieldsHidden && (
                 <><TextField margin="normal"
@@ -166,20 +194,32 @@ const SubmitComplaint = () => {
                             </>
                 )}
 
+            <TextField margin="normal"
+                        required
+                        fullWidth
+                        id="address"
+                        label="Address of complaint location"
+                        name="address"
+                        autoComplete="address"
+                        autoFocus
+                        value={complaint.address || ""}
+                        inputProps={{ maxLength: 200 }}
+                        onChange={(event) => {setComplaint({...complaint, address: event.target.value})}}
+                            /> 
+
                 <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                <button
-                type = "button"
-                onClick={toggleFieldsVisibility}
-                sx = {{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                variant = 'contained'>
-                    {fieldsHidden ? 'Anonymous' : 'Not Anonymous'}
-                </button>
+
+                <label>
+                    <input type="checkbox" checked={fieldsHidden} onChange={toggleFieldsVisibility} />
+                    I want to be Anonymous
+                </label>
+
                 </Box>
 
                
 
                 
-            </FormControl>
+            
             
             <Box sx={{display: "flex", justifyContent: "space-between"}}>
                         <Button
