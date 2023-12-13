@@ -25,7 +25,7 @@ const OldPage = () => {
           setComplaints(data)
         }
         fetchComplaints()
-      }, [])
+      }, []) // eslint-disable-line react-hooks/exhaustive-deps
     
     //Create 
     const handleSubmit = async (event) => {

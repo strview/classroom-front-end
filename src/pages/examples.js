@@ -15,7 +15,7 @@ const Examples = () => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         console.log("complaint", complaint)
-        const tempComplaint = {...complaint, source: APP_SOURCE}
+        const tempComplaint = { ...complaint, source: APP_SOURCE }
         console.log("tempComplaint", tempComplaint)
         // setComplaint(tempComplaint)
         const { apiEndpoint, apiOptions } = await createComplaint(complaint)
@@ -71,25 +71,17 @@ const Examples = () => {
         // loop through the dictionary and create the chart data
         const chartData = []
         for (const [key, value] of Object.entries(chartDataDictionary)) {
-            chartData.push({name: key, value: value})
+            chartData.push({ name: key, value: value })
         }
         console.log("chartData", chartData)
         setChartData(chartData)
     }
-               
-    
-
-
-
-
 
     return (
         <>
             <Typography variant="h1">Examples</Typography>
-
-
             <Typography variant="h4">Grid Example</Typography>
-            <Box sx={{mb:4}}>
+            <Box sx={{ mb: 4 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6} md={3}>
                         <Button
@@ -102,13 +94,13 @@ const Examples = () => {
                             Get Chart Data
                         </Button>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{height:"300px"}}>
+                    <Grid item xs={12} sm={6} md={6} sx={{ height: "300px" }}>
                         <ResponsiveContainer>
                             <PieChart>
-                                <Pie 
-                                    dataKey="value" 
-                                    data={chartData} 
-                                    fill="#8884d8" 
+                                <Pie
+                                    dataKey="value"
+                                    data={chartData}
+                                    fill="#8884d8"
                                     labelLine={false}
                                     label={true}
                                     cx="50%"
@@ -119,14 +111,10 @@ const Examples = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <Typography variant="h6">Number 3</Typography>
                     </Grid>
-                    
                 </Grid>
             </Box>
-            
-
-
             <Typography variant="h4">Form Example</Typography>
-            <Box sx={{mb:4}}>
+            <Box sx={{ mb: 4 }}>
                 <Container component="main" >
                     <Box sx={{
                         marginTop: 0,
@@ -145,7 +133,7 @@ const Examples = () => {
                                 autoComplete="message"
                                 autoFocus
                                 value={complaint.message || ""}
-                                onChange={(event) => {setComplaint({...complaint, message: event.target.value})}}
+                                onChange={(event) => { setComplaint({ ...complaint, message: event.target.value }) }}
                             />
                             <TextField
                                 margin="normal"
@@ -155,9 +143,9 @@ const Examples = () => {
                                 label="Submitter"
                                 name="submitter"
                                 autoComplete="submitter"
-                                
+
                                 value={complaint.submitter || ""}
-                                onChange={(event) => {setComplaint({...complaint, submitter: event.target.value})}}
+                                onChange={(event) => { setComplaint({ ...complaint, submitter: event.target.value }) }}
                             />
                             <TextField
                                 margin="normal"
@@ -167,12 +155,12 @@ const Examples = () => {
                                 label="Type"
                                 name="type"
                                 autoComplete="type"
-                                
+
                                 value={complaint.type || ""}
-                                onChange={(event) => {setComplaint({...complaint, type: event.target.value})}}
+                                onChange={(event) => { setComplaint({ ...complaint, type: event.target.value }) }}
                             />
 
-                            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -195,19 +183,16 @@ const Examples = () => {
                     </Box>
                 </Container>
             </Box>
-
-
-
             <Typography variant="h4">Get Single Complaint</Typography>
-            <Box sx={{mb:4}}>
-                <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <Box sx={{ mb: 4 }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Button
                         type="button"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
                         onClick={getSingleComplaint}
-                    >   
+                    >
                         Get Single Complaint
                     </Button>
                     <Button
@@ -215,7 +200,7 @@ const Examples = () => {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                        onClick={() => {updateComplaintStatus('New')}}
+                        onClick={() => { updateComplaintStatus('New') }}
                     >
                         Update Status to New
                     </Button>
@@ -224,7 +209,7 @@ const Examples = () => {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                        onClick={() => {updateComplaintStatus('In Process')}}
+                        onClick={() => { updateComplaintStatus('In Process') }}
                     >
                         Update Status to In Process
                     </Button>
@@ -233,7 +218,7 @@ const Examples = () => {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                        onClick={() => {updateComplaintStatus('Resolved')}}
+                        onClick={() => { updateComplaintStatus('Resolved') }}
                     >
                         Update Status to Resolved
                     </Button>
@@ -241,21 +226,20 @@ const Examples = () => {
                 <Box>
                     {displayComplaint.id && (
                         <>
-                        <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                            <Typography variant="h6">Id:</Typography>
-                            <Typography variant="h6">{displayComplaint.id}</Typography>
-                        </Box>
-                        <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                            <Typography variant="h6">Status:</Typography>
-                            <Typography variant="h6">{displayComplaint.status}</Typography>
-                        </Box>
-                        <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                            <Typography variant="h6">Message:</Typography>
-                            <Typography variant="h6">{displayComplaint.message}</Typography>
-                        </Box>
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                <Typography variant="h6">Id:</Typography>
+                                <Typography variant="h6">{displayComplaint.id}</Typography>
+                            </Box>
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                <Typography variant="h6">Status:</Typography>
+                                <Typography variant="h6">{displayComplaint.status}</Typography>
+                            </Box>
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                <Typography variant="h6">Message:</Typography>
+                                <Typography variant="h6">{displayComplaint.message}</Typography>
+                            </Box>
                         </>
                     )}
-                    
                 </Box>
             </Box>
         </>

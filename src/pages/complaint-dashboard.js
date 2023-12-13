@@ -1,8 +1,7 @@
 import { useState,useEffect } from "react"
-import { Box, Button, Grid, Typography } from "@mui/material"
+import { Box,  Grid, Typography } from "@mui/material"
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts"
 import { getComplaints } from "../helpers/apiEndpoints"
-
 
 const ComplaintDashboard = () => {
     const [chartDataStatusDay, setChartDataStatusDay] = useState([])
@@ -14,14 +13,13 @@ const ComplaintDashboard = () => {
     const [tableDataNew, setTableDataNew] = useState({})
     const [tableDataInProgress, setTableDataInProgress] = useState({})
 
-    let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#3498db", "#2ecc71", "#e74c3c", "#f39c12"];
-    const currentDate = new Date();
+    let COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#3498db", "#2ecc71", "#e74c3c", "#f39c12"]
+    const currentDate = new Date()
 
     useEffect(() => {
-        // PUT STUFF HERE TO RUN ON STARTUP
         getChartData()
         getTableData()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const getChartData = async () => {
         const { apiEndpoint, apiOptions } = await getComplaints()
@@ -33,22 +31,18 @@ const ComplaintDashboard = () => {
         
         //STATUS DATA
         // loop through the data and create a dictionary of the types and counts
-        
         //Daily
         let chartDataDictionary = {}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintStatusHours = timeDifference / (1000 * 60 * 60);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintStatusHours = timeDifference / (1000 * 60 * 60)
             if ((complaintStatusHours) < (24)){
                 if (chartDataDictionary[item.status]) {
                     chartDataDictionary[item.status] += 1
                 } else {
                     chartDataDictionary[item.status] = 1
                 }
-            }
-            else {
-                //console.log("ComplaintStatusHours",  complaintStatusHours)  
             }
         }) 
         // loop through the dictionary and create the chart data
@@ -62,18 +56,15 @@ const ComplaintDashboard = () => {
         //Weekly
         chartDataDictionary = {}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintStatusDaysW = timeDifference / (1000 * 60 * 60 * 24);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintStatusDaysW = timeDifference / (1000 * 60 * 60 * 24)
             if ((complaintStatusDaysW) < (7)){
                 if (chartDataDictionary[item.status]) {
                     chartDataDictionary[item.status] += 1
                 } else {
                     chartDataDictionary[item.status] = 1
                 }
-            }
-            else {
-                
             }
         }) 
         // loop through the dictionary and create the chart data
@@ -87,18 +78,15 @@ const ComplaintDashboard = () => {
         //Monthly
         chartDataDictionary = {}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintStatusDaysM = timeDifference / (1000 * 60 * 60 * 24);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintStatusDaysM = timeDifference / (1000 * 60 * 60 * 24)
             if ((complaintStatusDaysM) < (31)){
                 if (chartDataDictionary[item.status]) {
                     chartDataDictionary[item.status] += 1
                 } else {
                     chartDataDictionary[item.status] = 1
                 }
-            }
-            else {
-                
             }
         }) 
         // loop through the dictionary and create the chart data
@@ -114,18 +102,15 @@ const ComplaintDashboard = () => {
         //Daily
         chartDataDictionary = {}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintTypeHours = timeDifference / (1000 * 60 * 60);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintTypeHours = timeDifference / (1000 * 60 * 60)
             if ((complaintTypeHours) < (24)){
                 if (chartDataDictionary[item.type]) {
                     chartDataDictionary[item.type] += 1
                 } else {
                     chartDataDictionary[item.type] = 1
                 }
-            }
-            else {
-                //console.log("ComplaintTypeHours",  complaintTypeHours)
             }
         })
         // loop through the dictionary and create the chart data
@@ -139,18 +124,15 @@ const ComplaintDashboard = () => {
         //Weekly
         chartDataDictionary = {}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintTypeDaysW = timeDifference / (1000 * 60 * 60 * 24);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintTypeDaysW = timeDifference / (1000 * 60 * 60 * 24)
             if ((complaintTypeDaysW) < (7)){
                 if (chartDataDictionary[item.type]) {
                     chartDataDictionary[item.type] += 1
                 } else {
                     chartDataDictionary[item.type] = 1
                 }
-            }
-            else {
-                //console.log("ComplaintTypeDaysW",  complaintTypeDaysW)
             }
         })
         // loop through the dictionary and create the chart data
@@ -163,18 +145,15 @@ const ComplaintDashboard = () => {
         //Monthly
         chartDataDictionary = {}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintTypeDays = timeDifference / (1000 * 60 * 60 * 24);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintTypeDays = timeDifference / (1000 * 60 * 60 * 24)
             if ((complaintTypeDays) < (31)){
                 if (chartDataDictionary[item.type]) {
                     chartDataDictionary[item.type] += 1
                 } else {
                     chartDataDictionary[item.type] = 1
                 }
-            }
-            else {
-                
             }
         })
         // loop through the dictionary and create the chart data
@@ -184,7 +163,6 @@ const ComplaintDashboard = () => {
         }
         console.log("chartDataTypeMonth", chartDataTypeMonth)
         setChartDataTypeMonth(chartDataTypeMonth)
-
     }
 
     const getTableData = async () => {
@@ -195,13 +173,11 @@ const ComplaintDashboard = () => {
         const data = await response.json()
         console.log(data)
 
-
-        //var bucket1=0, bucket2=0, bucket3=0, bucket4=0
         let tableDataDictionary = {bucket1:0, bucket2:0, bucket3:0, bucket4:0}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintDays = timeDifference / (1000 * 60 * 60 * 24);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintDays = timeDifference / (1000 * 60 * 60 * 24)
             console.log(complaintDays, item.status)
             if ((complaintDays) <= (30) && (item.status?.toLowerCase()==="new")){
                 tableDataDictionary["bucket1"] += 1     
@@ -224,9 +200,9 @@ const ComplaintDashboard = () => {
 
         tableDataDictionary = {bucket1:0, bucket2:0, bucket3:0, bucket4:0}
         data.forEach((item) => {
-            var complaintDate = new Date(item.created_at);
-            const timeDifference = currentDate - complaintDate;
-            const complaintDays = timeDifference / (1000 * 60 * 60 * 24);
+            var complaintDate = new Date(item.created_at)
+            const timeDifference = currentDate - complaintDate
+            const complaintDays = timeDifference / (1000 * 60 * 60 * 24)
             if ((complaintDays) <= (30) && (item.status?.toLowerCase()==="in process")){
                 tableDataDictionary["bucket1"] += 1     
             }
@@ -243,8 +219,6 @@ const ComplaintDashboard = () => {
                 
             }
         }) 
-        // loop through the dictionary and create the chart data
-        
         setTableDataInProgress(tableDataDictionary)
     }
 
@@ -256,27 +230,11 @@ const ComplaintDashboard = () => {
             <Box sx={{mb:4}}>
                 <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4}>
-                        {/*<Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                            onClick={getChartData}
-                        >
-                            Get Chart Data
-                            </Button>*/}
+
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}></Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        {/*<Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                            onClick={getTableData}
-                        >
-                            Get Table Data
-                        </Button>*/}
+
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{height:"300px"}}>
                         {(chartDataStatusDay.length === 0) ? (<Typography><b>No Available Data Currently</b></Typography>):
@@ -434,19 +392,19 @@ const ComplaintDashboard = () => {
                                 <tbody>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket1"]}</td>
+                                        <td><Typography sx={{pl:8}}>{tableDataNew["bucket1"]}</Typography></td>
                                     </tr>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket2"]}</td>
+                                        <td><Typography sx={{pl:8}}>{tableDataNew["bucket2"]}</Typography></td>
                                     </tr>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket3"]}</td>
+                                        <td><Typography sx={{pl:8}}>{tableDataNew["bucket3"]}</Typography></td>
                                     </tr>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;{tableDataNew["bucket4"]}</td>
+                                        <td><Typography sx={{pl:8}}>{tableDataNew["bucket4"]}</Typography></td>
                                     </tr> 
                                 </tbody>
                             </table>   
@@ -465,19 +423,19 @@ const ComplaintDashboard = () => {
                                 <tbody>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket1"]}</td>
+                                        <td><Typography sx={{pl:11}}>{tableDataInProgress["bucket1"]}</Typography></td>
                                     </tr>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket2"]}</td>
+                                        <td><Typography sx={{pl:11}}>{tableDataInProgress["bucket2"]}</Typography></td>
                                     </tr>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket3"]}</td>
+                                        <td><Typography sx={{pl:11}}>{tableDataInProgress["bucket3"]}</Typography></td>
                                     </tr>
                                     <tr>
                                         <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
-                                        <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{tableDataInProgress["bucket4"]}</td>
+                                        <td><Typography sx={{pl:11}}>{tableDataInProgress["bucket4"]}</Typography></td>
                                     </tr> 
                                 </tbody>
                             </table>    
