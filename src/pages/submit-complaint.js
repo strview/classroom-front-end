@@ -5,6 +5,7 @@ import { createComplaint } from "../helpers/apiEndpoints"
 import validator from 'validator'
 import Alert from '@mui/material/Alert'
 import LinearProgress from '@mui/material/LinearProgress'
+import Checkbox from '@mui/material/Checkbox';
 
 const APP_SOURCE = "kobe-front=end"
 
@@ -89,6 +90,8 @@ const SubmitComplaint = () => {
         fontFamily: "Arial",
         textAlign: 'center',
     }
+
+    const checkBoxLabel = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
     return (
         <>
@@ -184,11 +187,13 @@ const SubmitComplaint = () => {
                     onChange={(event) => { setComplaint({ ...complaint, address: event.target.value }) }}
                 />
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-
-                    <label>
-                        <input type="checkbox" checked={fieldsHidden} onChange={toggleFieldsVisibility} />
-                        I want to be Anonymous
-                    </label>
+                
+                <label>
+                <Checkbox {...checkBoxLabel} 
+                onClick = {toggleFieldsVisibility}
+                checked = {fieldsHidden} />
+                I want to be anonymous
+                </label> 
                 </Box>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Button
