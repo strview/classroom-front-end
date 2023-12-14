@@ -5,6 +5,7 @@ import { createComplaint } from "../helpers/apiEndpoints"
 import validator from 'validator'
 import Alert from '@mui/material/Alert'
 import LinearProgress from '@mui/material/LinearProgress'
+import Checkbox from '@mui/material/Checkbox';
 
 const APP_SOURCE = "kobe-front=end"
 
@@ -90,6 +91,8 @@ const SubmitComplaint = () => {
         textAlign: 'center',
     }
 
+    const checkBoxLabel = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
     return (
         <>
             {showAlert && <Alert severity="success">Your Response has been recorded</Alert>}
@@ -99,18 +102,7 @@ const SubmitComplaint = () => {
                               </Box>)}
             <h1 style={mystyle}> Complaint Form</h1>
             <form>
-                <TextField margin="normal"
-                    required
-                    fullWidth
-                    id="message"
-                    label="Message"
-                    name="message"
-                    autoComplete="message"
-                    autoFocus
-                    value={complaint.message || ""}
-                    inputProps={{ maxLength: 2000 }}
-                    onChange={(event) => { setComplaint({ ...complaint, message: event.target.value }) }}
-                />
+                
                 <FormControl fullWidth>
                     <InputLabel id="type-label">Complaint type</InputLabel>
                     <Select
@@ -131,6 +123,31 @@ const SubmitComplaint = () => {
                         <MenuItem value="other">Other</MenuItem>
                     </Select>
                 </FormControl>
+                <TextField margin="normal"
+                    required
+                    fullWidth
+                    id="address"
+                    label="Address of complaint location"
+                    name="address"
+                    autoComplete="address"
+                    autoFocus
+                    value={complaint.address || ""}
+                    inputProps={{ maxLength: 200 }}
+                    onChange={(event) => { setComplaint({ ...complaint, address: event.target.value }) }}
+                />
+                
+                <TextField margin="normal"
+                    required
+                    fullWidth
+                    id="message"
+                    label="Message"
+                    name="message"
+                    autoComplete="message"
+                    autoFocus
+                    value={complaint.message || ""}
+                    inputProps={{ maxLength: 2000 }}
+                    onChange={(event) => { setComplaint({ ...complaint, message: event.target.value }) }}
+                />
                 {!fieldsHidden && (
                     <><TextField margin="normal"
                         required
@@ -171,24 +188,15 @@ const SubmitComplaint = () => {
                         </div>
                     </>
                 )}
-                <TextField margin="normal"
-                    required
-                    fullWidth
-                    id="address"
-                    label="Address of complaint location"
-                    name="address"
-                    autoComplete="address"
-                    autoFocus
-                    value={complaint.address || ""}
-                    inputProps={{ maxLength: 200 }}
-                    onChange={(event) => { setComplaint({ ...complaint, address: event.target.value }) }}
-                />
+                
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-
-                    <label>
-                        <input type="checkbox" checked={fieldsHidden} onChange={toggleFieldsVisibility} />
-                        I want to be Anonymous
-                    </label>
+                
+                <label>
+                <Checkbox {...checkBoxLabel} 
+                onClick = {toggleFieldsVisibility}
+                checked = {fieldsHidden} />
+                I want to be anonymous
+                </label> 
                 </Box>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Button
