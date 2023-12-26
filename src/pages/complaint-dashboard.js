@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react"
-import { Box, Grid, Typography } from "@mui/material"
+import { Box, Grid, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material"
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts"
 import { getComplaints } from "../helpers/apiEndpoints"
-import CircularProgress from '@mui/material/CircularProgress'
 
 const ComplaintDashboard = () => {
     const [showProgress, setShowProgress] = useState(false)
@@ -29,8 +28,8 @@ const ComplaintDashboard = () => {
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const TooltipDayStatus = ({ active, payload }) => {
-        if (active && payload && payload.length) {  
-            
+        if (active && payload && payload.length) {
+
             return (
                 <div className={`custom-tooltip`} style={tooltipStyle}>
                     {payload.map((entry, index) => {
@@ -47,8 +46,8 @@ const ComplaintDashboard = () => {
     }
 
     const TooltipWeekStatus = ({ active, payload }) => {
-        if (active && payload && payload.length) {  
-            
+        if (active && payload && payload.length) {
+
             return (
                 <div className={`custom-tooltip`} style={tooltipStyle}>
                     {payload.map((entry, index) => {
@@ -65,8 +64,8 @@ const ComplaintDashboard = () => {
     }
 
     const TooltipMonthStatus = ({ active, payload }) => {
-        if (active && payload && payload.length) {  
-            
+        if (active && payload && payload.length) {
+
             return (
                 <div className={`custom-tooltip`} style={tooltipStyle}>
                     {payload.map((entry, index) => {
@@ -83,8 +82,8 @@ const ComplaintDashboard = () => {
     }
 
     const TooltipDayType = ({ active, payload }) => {
-        if (active && payload && payload.length) {  
-            
+        if (active && payload && payload.length) {
+
             return (
                 <div className={`custom-tooltip`} style={tooltipStyle}>
                     {payload.map((entry, index) => {
@@ -101,8 +100,8 @@ const ComplaintDashboard = () => {
     }
 
     const TooltipWeekType = ({ active, payload }) => {
-        if (active && payload && payload.length) {  
-            
+        if (active && payload && payload.length) {
+
             return (
                 <div className={`custom-tooltip`} style={tooltipStyle}>
                     {payload.map((entry, index) => {
@@ -119,8 +118,8 @@ const ComplaintDashboard = () => {
     }
 
     const TooltipMonthType = ({ active, payload }) => {
-        if (active && payload && payload.length) {  
-            
+        if (active && payload && payload.length) {
+
             return (
                 <div className={`custom-tooltip`} style={tooltipStyle}>
                     {payload.map((entry, index) => {
@@ -338,238 +337,237 @@ const ComplaintDashboard = () => {
                 : <Typography variant="h2" align="center">Complaint Dashboard</Typography>
             }
             <Box sx={{ mb: 4 }}>
-                <Grid container spacing={2} align="center" justify="center" alignItems="center">
-                    <Grid item xs={12} sm={12} md={12}></Grid>
-                    <Grid item xs={12} sm={6} md={4}></Grid>
-                    <Grid item xs={12} sm={6} md={4}></Grid>
-                    <Grid item xs={12} sm={6} md={4}></Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
-                        <Typography variant="h5" align="center"><u><b>Daily Complaint Statuses</b></u></Typography>
-                        {(showProgress === true) ? (<CircularProgress
-                            style={{
-                                position: 'absolute',
-                                left: '50%',
-                                top: '50%',
-                                transform: 'translate(-50%, -50%)'
-                            }} />)
-                            : (chartDataStatusDay.length === 0) ? (<Typography sx={{pt: 13, pb: 0, pr: 2, pl: 2}}><b>No Available Data Currently</b></Typography>)
-                                : <ResponsiveContainer>
-                                    <PieChart>
-                                        <Pie
-                                            dataKey="value"
-                                            nameKey="name"
-                                            data={chartDataStatusDay}
-                                            fill="#8884d8"
-                                            labelLine={false}
-                                            label={true}
-                                            cx="50%"
-                                            cy="50%"
-                                        >
-                                            {chartDataStatusDay.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip content={<TooltipDayStatus/>} />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                        }
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
-                        <Typography variant="h5" align="center"><u><b>Weekly Complaint Statuses</b></u></Typography>
-                        {(showProgress === true) ? (<Typography></Typography>)
-                            : (chartDataStatusWeek.length === 0) ? (<Typography sx={{pt: 13, pb: 0, pr: 2, pl: 2}}><b>No Available Data Currently</b></Typography>)
-                                : <ResponsiveContainer>
-                                    <PieChart>
-                                        <Pie
-                                            dataKey="value"
-                                            data={chartDataStatusWeek}
-                                            fill="#8884d8"
-                                            labelLine={false}
-                                            label={true}
-                                            cx="50%"
-                                            cy="50%"
-                                        >
-                                            {chartDataStatusWeek.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip content={<TooltipWeekStatus/>} />
-                                        <Legend/>
+                {(showProgress === true) ? (<CircularProgress
+                    style={{
+                        position: 'absolute',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)'
+                    }} />) : 
+                    (
+                        <Grid container spacing={2} align="center" justify="center" alignItems="center">
+                            <Grid item xs={12} sm={12} md={12}></Grid>
+                            <Grid item xs={12} sm={6} md={4}></Grid>
+                            <Grid item xs={12} sm={6} md={4}></Grid>
+                            <Grid item xs={12} sm={6} md={4}></Grid>
+                            <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
+                                <Typography variant="h5" align="center"><u><b>Daily Complaint Statuses</b></u></Typography>
+                                {(chartDataStatusDay.length === 0) ? (<Typography sx={{ pt: 13, pb: 0, pr: 2, pl: 2 }}><b>No Available Data Currently</b></Typography>)
+                                    : <ResponsiveContainer>
+                                        <PieChart>
+                                            <Pie
+                                                dataKey="value"
+                                                nameKey="name"
+                                                data={chartDataStatusDay}
+                                                fill="#8884d8"
+                                                labelLine={false}
+                                                label={true}
+                                                cx="50%"
+                                                cy="50%"
+                                            >
+                                                {chartDataStatusDay.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip content={<TooltipDayStatus />} />
+                                            <Legend />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                }
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
+                                <Typography variant="h5" align="center"><u><b>Weekly Complaint Statuses</b></u></Typography>
+                                {
+                                    (chartDataStatusWeek.length === 0) ? (<Typography sx={{ pt: 13, pb: 0, pr: 2, pl: 2 }}><b>No Available Data Currently</b></Typography>)
+                                        : <ResponsiveContainer>
+                                            <PieChart>
+                                                <Pie
+                                                    dataKey="value"
+                                                    data={chartDataStatusWeek}
+                                                    fill="#8884d8"
+                                                    labelLine={false}
+                                                    label={true}
+                                                    cx="50%"
+                                                    cy="50%"
+                                                >
+                                                    {chartDataStatusWeek.map((entry, index) => (
+                                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                    ))}
+                                                </Pie>
+                                                <Tooltip content={<TooltipWeekStatus />} />
+                                                <Legend />
 
-                                    </PieChart>
-                                </ResponsiveContainer>
-                        }
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
-                        <Typography variant="h5" align="center"><u><b>Monthly Complaint Statuses</b></u></Typography>
-                        {(showProgress === true) ? (<Typography></Typography>)
-                            : (chartDataStatusMonth.length === 0) ? (<Typography sx={{pt: 13, pb: 0, pr: 2, pl: 2}}><b>No Available Data Currently</b></Typography>)
-                                : <ResponsiveContainer>
-                                    <PieChart>
-                                        <Pie
-                                            dataKey="value"
-                                            data={chartDataStatusMonth}
-                                            fill="#8884d8"
-                                            labelLine={false}
-                                            label={true}
-                                            cx="50%"
-                                            cy="50%"
-                                        >
-                                            {chartDataStatusMonth.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip content={<TooltipMonthStatus/>} />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                        }
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12}></Grid>
-                    <Grid item xs={12} sm={12} md={12}></Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
-                        <Typography variant="h5" align="center"><u><b>Daily Complaint Types</b></u></Typography>
-                        {(showProgress === true) ? (<Typography></Typography>)
-                            : (chartDataTypeDay.length === 0) ? (<Typography sx={{pt: 13, pb: 0, pr: 2, pl: 2}}><b>No Available Data Currently</b></Typography>)
-                                : <ResponsiveContainer>
-                                    <PieChart>
-                                        <Pie
-                                            dataKey="value"
-                                            data={chartDataTypeDay}
-                                            fill="#8884d8"
-                                            labelLine={false}
-                                            label={true}
-                                            cx="50%"
-                                            cy="50%" >
-                                            {chartDataTypeDay.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip content={<TooltipDayType/>} />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                        }
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
-                        <Typography variant="h5" align="center"><u><b>Weekly Complaint Types</b></u></Typography>
-                        {(showProgress === true) ? (<Typography></Typography>)
-                            : (chartDataTypeWeek.length === 0) ? (<Typography sx={{pt: 13, pb: 0, pr: 2, pl: 2}}><b>No Available Data Currently</b></Typography>)
-                                : <ResponsiveContainer>
-                                    <PieChart>
-                                        <Pie
-                                            dataKey="value"
-                                            data={chartDataTypeWeek}
-                                            fill="#8884d8"
-                                            labelLine={false}
-                                            label={true}
-                                            cx="50%"
-                                            cy="50%"
-                                        >
-                                            {chartDataTypeWeek.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip content={<TooltipWeekType/>} />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                        }
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
-                        <Typography variant="h5" align="center"><u><b>Monthly Complaint Types</b></u></Typography>
-                        {(showProgress === true) ? (<Typography></Typography>)
-                            : (chartDataTypeMonth.length === 0) ? (<Typography sx={{pt: 13, pb: 0, pr: 2, pl: 2}}><b>No Available Data Currently</b></Typography>)
-                                : <ResponsiveContainer>
-                                    <PieChart>
-                                        <Pie
-                                            dataKey="value"
-                                            data={chartDataTypeMonth}
-                                            fill="#8884d8"
-                                            labelLine={false}
-                                            label={true}
-                                            cx="50%"
-                                            cy="50%"
-                                        >
-                                            {chartDataTypeMonth.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip content={<TooltipMonthType/>} />
-                                        <Legend />
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                }
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
+                                <Typography variant="h5" align="center"><u><b>Monthly Complaint Statuses</b></u></Typography>
+                                {(chartDataStatusMonth.length === 0) ? (<Typography sx={{ pt: 13, pb: 0, pr: 2, pl: 2 }}><b>No Available Data Currently</b></Typography>)
+                                    : <ResponsiveContainer>
+                                        <PieChart>
+                                            <Pie
+                                                dataKey="value"
+                                                data={chartDataStatusMonth}
+                                                fill="#8884d8"
+                                                labelLine={false}
+                                                label={true}
+                                                cx="50%"
+                                                cy="50%"
+                                            >
+                                                {chartDataStatusMonth.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip content={<TooltipMonthStatus />} />
+                                            <Legend />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                }
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12}></Grid>
+                            <Grid item xs={12} sm={12} md={12}></Grid>
+                            <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
+                                <Typography variant="h5" align="center"><u><b>Daily Complaint Types</b></u></Typography>
+                                {(chartDataTypeDay.length === 0) ? (<Typography sx={{ pt: 13, pb: 0, pr: 2, pl: 2 }}><b>No Available Data Currently</b></Typography>)
+                                    : <ResponsiveContainer>
+                                        <PieChart>
+                                            <Pie
+                                                dataKey="value"
+                                                data={chartDataTypeDay}
+                                                fill="#8884d8"
+                                                labelLine={false}
+                                                label={true}
+                                                cx="50%"
+                                                cy="50%" >
+                                                {chartDataTypeDay.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip content={<TooltipDayType />} />
+                                            <Legend />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                }
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
+                                <Typography variant="h5" align="center"><u><b>Weekly Complaint Types</b></u></Typography>
+                                {(chartDataTypeWeek.length === 0) ? (<Typography sx={{ pt: 13, pb: 0, pr: 2, pl: 2 }}><b>No Available Data Currently</b></Typography>)
+                                    : <ResponsiveContainer>
+                                        <PieChart>
+                                            <Pie
+                                                dataKey="value"
+                                                data={chartDataTypeWeek}
+                                                fill="#8884d8"
+                                                labelLine={false}
+                                                label={true}
+                                                cx="50%"
+                                                cy="50%"
+                                            >
+                                                {chartDataTypeWeek.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip content={<TooltipWeekType />} />
+                                            <Legend />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                }
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} sx={{ height: "300px" }}>
+                                <Typography variant="h5" align="center"><u><b>Monthly Complaint Types</b></u></Typography>
+                                {(chartDataTypeMonth.length === 0) ? (<Typography sx={{ pt: 13, pb: 0, pr: 2, pl: 2 }}><b>No Available Data Currently</b></Typography>)
+                                    : <ResponsiveContainer>
+                                        <PieChart>
+                                            <Pie
+                                                dataKey="value"
+                                                data={chartDataTypeMonth}
+                                                fill="#8884d8"
+                                                labelLine={false}
+                                                label={true}
+                                                cx="50%"
+                                                cy="50%"
+                                            >
+                                                {chartDataTypeMonth.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip content={<TooltipMonthType />} />
+                                            <Legend />
 
-                                    </PieChart>
-                                </ResponsiveContainer>
-                        }
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12}></Grid>
-                    <Grid item xs={12} sm={12} md={12}></Grid>
-                    <Grid item xs={12} sm={6} md={3}></Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <div className="grid-item">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
-                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>New Complaints</b></u></Typography></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
-                                        <td><Typography sx={{ pl: 8 }}>{tableDataNew["bucket1"]}</Typography></td>
-                                    </tr>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
-                                        <td><Typography sx={{ pl: 8 }}>{tableDataNew["bucket2"]}</Typography></td>
-                                    </tr>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
-                                        <td><Typography sx={{ pl: 8 }}>{tableDataNew["bucket3"]}</Typography></td>
-                                    </tr>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
-                                        <td><Typography sx={{ pl: 8 }}>{tableDataNew["bucket4"]}</Typography></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={1}></Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <div className="grid-item">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></th>
-                                        <th><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>In Process Complaints</b></u></Typography></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></td>
-                                        <td><Typography sx={{ pl: 11 }}>{tableDataInProgress["bucket1"]}</Typography></td>
-                                    </tr>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></td>
-                                        <td><Typography sx={{ pl: 11 }}>{tableDataInProgress["bucket2"]}</Typography></td>
-                                    </tr>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></td>
-                                        <td><Typography sx={{ pl: 11 }}>{tableDataInProgress["bucket3"]}</Typography></td>
-                                    </tr>
-                                    <tr>
-                                        <td><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></td>
-                                        <td><Typography sx={{ pl: 11 }}>{tableDataInProgress["bucket4"]}</Typography></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}></Grid>
-
-                </Grid>
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                }
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12}></Grid>
+                            <Grid item xs={12} sm={12} md={12}></Grid>
+                            <Grid item xs={12} sm={12} md={12}></Grid>
+                            <Grid item xs={12} sm={6} md={3}></Grid>
+                            <Grid item xs={12} sm={6} md={3}>
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth: 480 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></TableCell>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>New Complaints</b></u></Typography></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataNew["bucket1"]}</Typography></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataNew["bucket2"]}</Typography></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataNew["bucket3"]}</Typography></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell><Typography><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataNew["bucket4"]}</Typography></TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={1}></Grid>
+                            <Grid item xs={12} sm={6} md={3}>
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth: 480 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>Days</b></u></Typography></TableCell>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}><u><b>In Process Complaints</b></u></Typography></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>0-30</Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataInProgress["bucket1"]}</Typography></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>31-60</Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataInProgress["bucket2"]}</Typography></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>61-90</Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataInProgress["bucket3"]}</Typography></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell><Typography><Typography sx={{ mt: 1, mb: 1, mr: 2, ml: 2 }}>90+</Typography></Typography></TableCell>
+                                                <TableCell><Typography sx={{ pl: 8 }}>{tableDataInProgress["bucket4"]}</Typography></TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={3}></Grid>
+                        </Grid>
+                    )
+                }
             </Box>
 
         </>
