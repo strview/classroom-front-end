@@ -134,6 +134,7 @@ const ComplaintDashboard = () => {
         }
         return null;
     }
+    
 
     const getChartData = async () => {
         setShowProgress(true)
